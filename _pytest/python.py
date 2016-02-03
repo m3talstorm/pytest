@@ -1973,7 +1973,7 @@ class FixtureManager:
         autousenames = []
         for name in dir(holderobj):
             # Skip over non-callable attributes
-            if not callable(holderobj.__dict__[name]):
+            if not callable(holderobj.__dict__.get(name)):
                 continue
 
             obj = getattr(holderobj, name, None)
