@@ -1768,7 +1768,7 @@ class FixtureLookupError(LookupError):
             # the last fixture raise an error, let's present
             # it at the requesting side
             stack = stack[:-1]
-                               
+
         for function in stack:
             fspath, lineno = getfslineno(function)
             try:
@@ -1972,6 +1972,10 @@ class FixtureManager:
         self._holderobjseen.add(holderobj)
         autousenames = []
         for name in dir(holderobj):
+            # Skip over non-callable attributes
+            if not callable(holderobj.__dict__[name]):
+                continue
+
             obj = getattr(holderobj, name, None)
             # fixture functions have a pytest_funcarg__ prefix (pre-2.3 style)
             # or are "@pytest.fixture" marked
